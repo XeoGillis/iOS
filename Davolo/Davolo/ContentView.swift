@@ -6,8 +6,61 @@
 //
 
 import SwiftUI
+import Router
 
 struct ContentView: View {
+    @ObservedObject var viewModel: VolleyballGame
+    
+    var body: some View {
+        Router("/") {
+            Route("/") {
+                Text("Selecteer spelers").font(.largeTitle).foregroundColor(.yellow)
+                SelectPlayersView(viewModel: viewModel)
+                Spacer()
+                ButtonSelectView()
+            }
+            Route("/davolo") {
+                Text("Opstelling").font(.largeTitle).foregroundColor(.yellow)
+                PositionListView(viewModel: viewModel)
+                Spacer()
+                ButtonsView(viewModel: viewModel)
+            }
+            Route("/davolo/{position}") {
+                PlayerListView(viewModel: viewModel)
+            }
+        }
+    }
+}
+
+struct SelectPlayersView: View {
+    @ObservedObject var viewModel: VolleyballGame
+    
+    var body: some View {
+        ScrollView {
+            VStack {
+                ForEach(viewModel.players) { player in
+                    PlayerSelectView(player: player, viewModel: viewModel)
+                }
+            }
+        }
+    }
+}
+
+struct PlayerListView: View {
+    @ObservedObject var viewModel: VolleyballGame
+    
+    var body: some View {
+        ScrollView {
+            VStack {
+                ForEach(viewModel.players) { player in
+                    PlayerView(player: player, viewModel: viewModel)
+                }
+            }
+        }.padding(.horizontal).foregroundColor(.teal)
+    }
+}
+
+struct PositionListView: View {
     @ObservedObject var viewModel: VolleyballGame
     
     let columns = [
@@ -15,68 +68,58 @@ struct ContentView: View {
             GridItem(.flexible()),
             GridItem(.flexible())
         ]
-    let shape = RoundedRectangle(cornerRadius: 30)
     
     var body: some View {
         VStack {
-            Text("Opstelling").font(.largeTitle)
-            HStack {
-                ScrollView {
-                    VStack {
-                        Text("Spelers").font(.title).foregroundColor(.yellow)
-                        ForEach(viewModel.players) { player in
-                            PlayerView(player: player)
-                                .onTapGesture {
-                                    viewModel.choosePlayer(player.id)
-                                }
-                        }
+            NavigationView {
+                LazyVGrid(columns: columns) {
+                    ForEach(viewModel.positions) { position in
+                        PositionView(position: position, viewModel: viewModel)
+                            .aspectRatio(2/3, contentMode: .fit)
                     }
-                }.padding(.horizontal).foregroundColor(.teal)
-                VStack {
-                    Text("Posities").font(.title).foregroundColor(.yellow)
-                    LazyVGrid(columns: columns) {
-                        ForEach(viewModel.positions) { position in
-                            PositionView(position: position)
-                                .aspectRatio(2/3, contentMode: .fit)
-                                .onTapGesture {
-                                    viewModel.choosePosition(position.id)
-                                }
-                        }
-                    }
-                    Spacer()
-                }.padding(.horizontal)
-            }
+                }
+            }.navigationViewStyle(.stack)
             Spacer()
-            HStack {
-                ZStack {
-                    shape.fill()
-                    shape.strokeBorder(lineWidth: 3).foregroundColor(.red)
-                    Button("❌"){
-                        viewModel.cancelSetUp()
-                    }
-                }.padding(.horizontal)
-                Spacer()
-                ZStack {
-                    shape.fill()
-                    shape.strokeBorder(lineWidth: 3).foregroundColor(.green)
-                    Button("✔️"){
-                        viewModel.saveSetUp()
-                    }
-                }.padding(.horizontal)
-            }.foregroundColor(.white).frame(height: 40).padding(.vertical)
+        }.padding(.horizontal)
+    }
+}
+
+struct PlayerSelectView: View {
+    let player: Game.Player
+    @ObservedObject var viewModel: VolleyballGame
+    
+    var body: some View {
+        ZStack {
+            let shape = RoundedRectangle(cornerRadius:30)
+            shape.fill()
+            Text(player.content).font(.body).foregroundColor(.blue)
         }
     }
 }
 
 struct PlayerView: View {
     let player: Game.Player
-
+    @Environment(\.navigator) private var navigator: Binding<Navigator>
+    @ObservedObject var viewModel: VolleyballGame
+    
     var body: some View {
-        ZStack {
-            let shape = RoundedRectangle(cornerRadius:30)
-            shape.fill()
-            if player.isFaceUp {
-                Text(player.content).font(.body).foregroundColor(.blue)
+        if player.isFaceUp {
+            Button(action: {
+                viewModel.choosePlayer(player.id)
+                navigator.pop {
+                    navigator.wrappedValue.path = "/davolo"
+                }
+            }) {
+                ZStack {
+                    let shape = RoundedRectangle(cornerRadius:30)
+                    shape.fill()
+                    Text(player.content).font(.body).foregroundColor(.blue)
+                }
+            }
+        } else {
+            ZStack {
+                let shape = RoundedRectangle(cornerRadius:30)
+                shape.fill()
             }
         }
     }
@@ -84,21 +127,69 @@ struct PlayerView: View {
 
 struct PositionView: View {
     let position: Game.Position
+    @ObservedObject var viewModel: VolleyballGame
+    @Environment(\.navigator) private var navigator: Binding<Navigator>
     
     var body: some View {
-        if (position.isFilledIn) {
-            ZStack {
-                let shape = Rectangle()
-                shape.fill()
-                Text(position.content).foregroundColor(.blue)
-            }.foregroundColor(.green)
+        Button(action: {
+            viewModel.choosePosition(position.id)
+            navigator.push {
+                navigator.wrappedValue.path = "/davolo/\(position)"
+            }
+        }) {
+            if (position.isFilledIn) {
+                ZStack {
+                    let shape = Rectangle()
+                    shape.fill()
+                    Text(position.content).foregroundColor(.blue)
+                }.foregroundColor(.green)
+            }
+            else {
+                ZStack {
+                    let shape = Rectangle()
+                    shape.fill()
+                    Text(position.content).foregroundColor(.blue)
+                }.foregroundColor(.teal)
+            }
         }
-        else {
+    }
+}
+
+struct ButtonsView: View {
+    @ObservedObject var viewModel: VolleyballGame
+    let shape = RoundedRectangle(cornerRadius: 30)
+    
+    var body: some View {
+        HStack {
             ZStack {
-                let shape = Rectangle()
                 shape.fill()
-                Text(position.content).foregroundColor(.blue)
-            }.foregroundColor(.teal)
+                shape.strokeBorder(lineWidth: 3).foregroundColor(.red)
+                Button("❌"){
+                    viewModel.cancelSetUp()
+                }
+            }.padding(.horizontal)
+            Spacer()
+            ZStack {
+                shape.fill()
+                shape.strokeBorder(lineWidth: 3).foregroundColor(.green)
+                Button("✔️"){
+                    viewModel.saveSetUp()
+                }
+            }.padding(.horizontal)
+        }.foregroundColor(.white).frame(height: 40).padding(.vertical)
+    }
+}
+
+struct ButtonSelectView: View {
+    @Environment(\.navigator) private var navigator: Binding<Navigator>
+    
+    var body: some View {
+        Button(action: {
+            navigator.push {
+                navigator.wrappedValue.path = "/davolo"
+            }
+        }) {
+            Text("Verder")
         }
     }
 }

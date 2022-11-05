@@ -13,6 +13,7 @@
 		AA60232328ED6D9C00E480FB /* VolleyballGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA60232228ED6D9C00E480FB /* VolleyballGame.swift */; };
 		AA60232528ED713200E480FB /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA60232428ED713200E480FB /* Game.swift */; };
 		AA60232728ED73C000E480FB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA60232628ED73C000E480FB /* ContentView.swift */; };
+		AAD42FF429126E4600EB6513 /* Router in Frameworks */ = {isa = PBXBuildFile; productRef = AAD42FF329126E4600EB6513 /* Router */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAD42FF429126E4600EB6513 /* Router in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +91,9 @@
 			dependencies = (
 			);
 			name = Davolo;
+			packageProductDependencies = (
+				AAD42FF329126E4600EB6513 /* Router */,
+			);
 			productName = Davolo;
 			productReference = AA60230B28ED6AEE00E480FB /* Davolo.app */;
 			productType = "com.apple.product-type.application";
@@ -117,6 +122,9 @@
 				Base,
 			);
 			mainGroup = AA60230228ED6AEE00E480FB;
+			packageReferences = (
+				AAD42FF229126E4600EB6513 /* XCRemoteSwiftPackageReference "Router" */,
+			);
 			productRefGroup = AA60230C28ED6AEE00E480FB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -347,6 +355,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AAD42FF229126E4600EB6513 /* XCRemoteSwiftPackageReference "Router" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:1amageek/Router.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AAD42FF329126E4600EB6513 /* Router */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAD42FF229126E4600EB6513 /* XCRemoteSwiftPackageReference "Router" */;
+			productName = Router;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AA60230328ED6AEE00E480FB /* Project object */;
 }
