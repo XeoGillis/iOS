@@ -9,9 +9,15 @@ import Foundation
 import MessageUI
 
 struct Game {
+    
+    // ATTRIBUTES
+    
     private(set) var players: Array<Player>
     private(set) var positions: Array<Position>
+    private(set) var playersPOST = Array(repeating: "", count: 7)
+    private let emojies = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐻‍❄️", "🐨", "🐯", "🦁", "🐮", "🐷", "🐸", "🐵"]
     
+<<<<<<< HEAD
     init(arrayOfPossiblePositions: Array<Int>) {
         players = Array<Player>()
         positions = Array<Position>()
@@ -26,8 +32,36 @@ struct Game {
         allPlayers.forEach { player in
             let positions = player.position.split(separator: " ")
             players.append(Game.Player(position: positions.map { Int($0)! }, content: player.name, id: player.number))
+=======
+    // INITIALIZATION - UPDATE PLAYERS AND POSITIONS ON CHANGE
+    
+    init() {
+        players = Array<Player>()
+        positions = Array<Position>()
+    }
+    mutating func updatePlayers(_ allPlayers: Array<VolleyballGame.Player>) {
+        players = Array<Player>()
+        allPlayers.forEach { player in
+            let positions = player.position.split(separator: " ")
+            players.append(Player(position: positions.map { Int($0)! }, content: player.name, id: player.number))
+>>>>>>> 5d159dc (almost done)
         }
     }
+    mutating func updatePositions(_ allPositions: Array<VolleyballGame.Position>) {
+        positions = Array<Position>()
+        allPositions.forEach { positions.append(Position(id: $0.id, content: String($0.position), image: emojies[Int.random(in: 0..<emojies.count)])) }
+    }
+    
+    // STARTSCREEN
+    
+    mutating func selectAllPlayers() {
+        players.indices.forEach { players[$0].isSelected = true }
+    }
+    mutating func addPlayer(with number : Int) {
+        players.indices.forEach { if players[$0].id == number { players[$0].isSelected.toggle() } }
+    }
+    
+    // CHOOSE POSITION AND PLAYER
     
     mutating func addPlayer(with number : Int) {
         players.indices.forEach { if players[$0].id == number { players[$0].isSelected = true } }
@@ -40,10 +74,10 @@ struct Game {
             
         }
     }
-    
     mutating func choosePlayer(_ namedPlayer : Int, at namedPosition : Int) {
+        playersPOST[namedPosition-1] = getPlayerById(namedPlayer)
         for index in positions.indices {
-            if positions[index].id == namedPosition {
+            if positions[index].content == String(namedPosition) {
                 if positions[index].isFilledIn == true {
                     editPlayer(index, at: namedPosition)
                 }
@@ -58,7 +92,6 @@ struct Game {
             players[index].isFaceUp = false
         }
     }
-    
     mutating func editPlayer(_ indexPlayer : Int, at namedPosition : Int) {
         for index in players.indices {
             if players[index].id == positions[indexPlayer].player {
@@ -66,6 +99,13 @@ struct Game {
             }
         }
     }
+    func getPlayerById(_ id: Int) -> String {
+        var answer = ""
+        players.indices.forEach { if players[$0].id == id { answer = players[$0].content }}
+        return answer
+    }
+    
+    // BUTTONS
     
     mutating func cancelSetUp() {
         for index in positions.indices {
@@ -76,14 +116,41 @@ struct Game {
             players[index].isAlreadyChosen = false
         }
     }
-    
     mutating func saveSetUp() {
-        var mailText = "Opstelling: \n"
-        for position in positions {
-            mailText += "Positie: " + position.content + " met speler: " + String(position.player) + "\n"
+        var positionsPOST = ""
+        positions.indices.forEach {
+            positionsPOST += String(positions[$0].id) + " "
         }
-        print(mailText)
+        save(positionsPOST, playersPOST.joined(separator: " "))
     }
+    func postAPI(_ pos: String, _ play: String) async {
+        let url = URL(string: "http://localhost:9000/api/match")
+        guard let requestUrl = url else { fatalError() }
+
+        var request = URLRequest(url: requestUrl)
+        request.httpMethod = "POST"
+
+        let postString = "position=" + pos + "&player=" + play + "&mail=xeo.gillis@gmail.com";
+        print(postString)
+
+        request.httpBody = postString.data(using: String.Encoding.utf8);
+
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Error took place \(error)")
+                return
+            }
+        }
+        task.resume()
+    }
+    func save(_ pos: String, _ play: String) {
+        Task {
+            await postAPI(pos, play)
+        }
+    }
+
+    
+    // STRUCTS
     
     struct Player: Identifiable {
         var isSelected: Bool = false
@@ -93,12 +160,12 @@ struct Game {
         var content: String
         var id: Int
     }
-    
     struct Position: Identifiable {
         var id: Int
         var content: String
         var isFilledIn: Bool = false
         var player: Int = 0
+        var image: String
     }
 }
 
