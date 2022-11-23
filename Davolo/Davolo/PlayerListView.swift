@@ -39,6 +39,7 @@ struct PlayerView: View {
                 }
             }) {
                 ZStack {
+<<<<<<< HEAD
                     let shape = RoundedRectangle(cornerRadius:30)
                     shape.fill()
                     Text(player.content).font(.body).foregroundColor(DavoloColor.Text)
@@ -49,6 +50,13 @@ struct PlayerView: View {
                 let shape = RoundedRectangle(cornerRadius:30)
                 shape.fill()
             }
+=======
+                    let shape = Rectangle()
+                    shape.fill(DavoloColor.Table).frame(minHeight: 70).shadow(radius: 15)
+                    Text(player.content).font(.body).foregroundColor(DavoloColor.Text)
+                }
+            }
+>>>>>>> daf6da9 (animations)
         }
     }
 }
@@ -61,7 +69,11 @@ struct ButtonsReturnView: View {
         Spacer()
         HStack {
             Button(action: {
+<<<<<<< HEAD
                 navigator.push {
+=======
+                navigator.pop {
+>>>>>>> daf6da9 (animations)
                     navigator.wrappedValue.path = "/davolo"
                 }
             }) {

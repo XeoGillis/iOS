@@ -22,6 +22,10 @@ class VolleyballGame: ObservableObject {
         }
     }
     var position = 0
+<<<<<<< HEAD
+=======
+    var mail = ""
+>>>>>>> daf6da9 (animations)
     
     // INITIALIZATION AND SEEDING
     
@@ -91,6 +95,12 @@ class VolleyballGame: ObservableObject {
     
     // ALL FUNCTIONS DELEGATED TO MODEL
     
+<<<<<<< HEAD
+=======
+    func setMail(_ mail: String) {
+        self.mail = mail
+    }
+>>>>>>> daf6da9 (animations)
     func selectAllPlayers() {
         model.selectAllPlayers()
     }
@@ -114,7 +124,19 @@ class VolleyballGame: ObservableObject {
         model.cancelSetUp()
     }
     func saveSetUp() {
-        model.saveSetUp()
+        model.saveSetUp(mailto: mail)
+    }
+    
+    // STRUCTS
+    
+    struct Player: Codable {
+        let name: String
+        let number: Int
+        let position: String
+    }
+    struct Position: Codable {
+        let id: Int
+        let position: Int
     }
     
     // STRUCTS

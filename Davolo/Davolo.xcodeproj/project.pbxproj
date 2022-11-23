@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA51D22A29196F2200149C32 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA51D22929196F2200149C32 /* LoginView.swift */; };
 		AA60230F28ED6AEE00E480FB /* DavoloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA60230E28ED6AEE00E480FB /* DavoloApp.swift */; };
 		AA60231328ED6AEE00E480FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA60231228ED6AEE00E480FB /* Assets.xcassets */; };
 		AA60231628ED6AEE00E480FB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA60231528ED6AEE00E480FB /* Preview Assets.xcassets */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AA51D22929196F2200149C32 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		AA60230B28ED6AEE00E480FB /* Davolo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Davolo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA60230E28ED6AEE00E480FB /* DavoloApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DavoloApp.swift; sourceTree = "<group>"; };
 		AA60231228ED6AEE00E480FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -72,6 +74,10 @@
 				AA7A99772917A32900B88DFE /* SelectPlayersView.swift */,
 				AA7A997B2917A42A00B88DFE /* PlayerListView.swift */,
 				AA7A997D2917A4D500B88DFE /* PositionListView.swift */,
+<<<<<<< HEAD
+=======
+				AA51D22929196F2200149C32 /* LoginView.swift */,
+>>>>>>> daf6da9 (animations)
 			);
 			path = Davolo;
 			sourceTree = "<group>";
@@ -166,6 +172,10 @@
 				AA60230F28ED6AEE00E480FB /* DavoloApp.swift in Sources */,
 				AA7A997C2917A42A00B88DFE /* PlayerListView.swift in Sources */,
 				AA60232728ED73C000E480FB /* RouterView.swift in Sources */,
+<<<<<<< HEAD
+=======
+				AA51D22A29196F2200149C32 /* LoginView.swift in Sources */,
+>>>>>>> daf6da9 (animations)
 				AA60232328ED6D9C00E480FB /* VolleyballGame.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

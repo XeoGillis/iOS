@@ -5,9 +5,15 @@
         "color-space" : "srgb",
         "components" : {
           "alpha" : "1.000",
+<<<<<<< HEAD
           "blue" : "0xD1",
           "green" : "0xBE",
           "red" : "0x9D"
+=======
+          "blue" : "0x3D",
+          "green" : "0x2E",
+          "red" : "0x1E"
+>>>>>>> daf6da9 (animations)
         }
       },
       "idiom" : "universal"
@@ -19,6 +25,7 @@
           "value" : "dark"
         }
       ],
+<<<<<<< HEAD
       "color" : {
         "color-space" : "srgb",
         "components" : {
@@ -28,6 +35,8 @@
           "red" : "0x05"
         }
       },
+=======
+>>>>>>> daf6da9 (animations)
       "idiom" : "universal"
     }
   ],

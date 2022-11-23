@@ -45,14 +45,22 @@ struct PositionView: View {
             if (position.isFilledIn) {
                 ZStack {
                     let shape = Rectangle()
+<<<<<<< HEAD
                     shape.fill()
+=======
+                    shape.fill().shadow(radius: 15)
+>>>>>>> daf6da9 (animations)
                     Text(position.image).foregroundColor(DavoloColor.Title).font(.largeTitle)
                 }.foregroundColor(DavoloColor.Table)
             }
             else {
                 ZStack {
                     let shape = Rectangle()
+<<<<<<< HEAD
                     shape.fill()
+=======
+                    shape.fill().shadow(radius: 15)
+>>>>>>> daf6da9 (animations)
                     Text(position.content).foregroundColor(DavoloColor.Text)
                 }.foregroundColor(DavoloColor.Table)
             }
@@ -71,7 +79,12 @@ struct ButtonsView: View {
         if (!showPopUp) {
             HStack {
                 Button(action: {
+<<<<<<< HEAD
                     navigator.push {
+=======
+                    viewModel.cancelSetUp()
+                    navigator.pop {
+>>>>>>> daf6da9 (animations)
                         navigator.wrappedValue.path = "/"
                     }
                 }) {

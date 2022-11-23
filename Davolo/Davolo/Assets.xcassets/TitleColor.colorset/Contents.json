@@ -2,6 +2,7 @@
   "colors" : [
     {
       "color" : {
+<<<<<<< HEAD
         "color-space" : "srgb",
         "components" : {
           "alpha" : "1.000",
@@ -9,6 +10,10 @@
           "green" : "0x4F",
           "red" : "0x00"
         }
+=======
+        "platform" : "universal",
+        "reference" : "systemMintColor"
+>>>>>>> daf6da9 (animations)
       },
       "idiom" : "universal"
     },
@@ -19,6 +24,7 @@
           "value" : "dark"
         }
       ],
+<<<<<<< HEAD
       "color" : {
         "color-space" : "srgb",
         "components" : {
@@ -28,6 +34,8 @@
           "red" : "0x7E"
         }
       },
+=======
+>>>>>>> daf6da9 (animations)
       "idiom" : "universal"
     }
   ],
